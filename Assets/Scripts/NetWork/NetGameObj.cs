@@ -5,6 +5,8 @@ using UnityEngine;
 /*
  * 1.初始化物体
  * 2.销毁物体
+ * 3.加载脚本
+ *     --|如何找到脚本？Hello.cs
  */
 namespace NetWork
 {
@@ -56,8 +58,9 @@ namespace NetWork
                     // 加载脚本
                     if (_deserializeObject.ScriptName != null)
                     {
-                        UnityEngineInternal.APIUpdaterRuntimeServices.AddComponent(
-                            go, "脚本", _deserializeObject.ScriptName);
+                        AddCScript(go, _deserializeObject.ScriptName);
+//                        UnityEngineInternal.APIUpdaterRuntimeServices.AddComponent(
+//                            go, "脚本", _deserializeObject.ScriptName);
                     }
                     
                     print("创建物体成功..." + go.name);
@@ -72,6 +75,17 @@ namespace NetWork
                         print("销毁物体完成");
                     }
                 }
+            }
+        }
+
+        void AddCScript(GameObject go, string scriptName)
+        {
+
+            switch (scriptName)
+            {
+                    case "":
+                        
+                        break;
             }
         }
     }
