@@ -1,0 +1,23 @@
+日期：2020年12月13日
+    --动态修改图片，角色选择场景中的选人头像更换
+        //动态修改图片
+        RoleIcon2.sprite = Resources.Load("Role/tsunade/icon", typeof(Sprite)) as Sprite;
+                    
+    --角色信息表
+        public SortedList<int, string> RoleNickNameSortedList = new SortedList<int, string>()
+                {
+                    {1, "Tsunade"},
+                    {2, "manjimaru"}
+                    
+                };
+    --角色头像路径
+        public SortedDictionary<int, string> RoleIconSortedList = new SortedDictionary<int, string>()
+               {
+                   {1,"Role/tsunade/icon"},
+                   {2,"Role/manjimaru/icon"}
+                   
+               };
+               
+               
+               
+               
