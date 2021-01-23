@@ -1,6 +1,6 @@
 ﻿using Script.Enum;
 
-namespace Script.NetWork.Entity
+namespace NetWork.Entity
 {
     [System.Serializable]
     public class SourceDataEntity

@@ -3,7 +3,7 @@
      2.localScale
      3.animation
      */
-namespace Script.NetWork.Entity
+namespace NetWork.Entity
 {
     [System.Serializable]
     public class Player2Entity

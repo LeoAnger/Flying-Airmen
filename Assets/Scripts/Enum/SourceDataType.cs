@@ -16,9 +16,12 @@
         Player3,      // 玩家3
         Player4,      // 玩家4
         Enemy,        // 敌人
+        EnemyByName,  // 敌人
+        EnemyBulletByName,        // 敌人子弹
         Enemy1,       // 敌人1
         Enemy2,       // 敌人2
         Enemy3,       // 敌人3
         Enemy4,       // 敌人4
+        
     }
 }

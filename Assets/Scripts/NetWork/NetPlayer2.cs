@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using Script.NetWork.Entity;
+﻿using NetWork.Entity;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Script.NetWork

@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using Script.NetWork.Entity;
+﻿using NetWork.Entity;
+using Newtonsoft.Json;
 using UnityEngine;
 
 /*
@@ -42,6 +42,7 @@ namespace NetWork
                     //物体已经存在
                     if (GameObject.Find(_deserializeObject.ObjName) != null)
                     {
+                        print("物体已经存在");
                         //移除脚本
                         return;
                     }
@@ -55,13 +56,6 @@ namespace NetWork
                         Quaternion.identity);
                     // 名字
                     go.name = _deserializeObject.ObjName;
-                    // 加载脚本
-                    if (_deserializeObject.ScriptName != null)
-                    {
-                        AddCScript(go, _deserializeObject.ScriptName);
-//                        UnityEngineInternal.APIUpdaterRuntimeServices.AddComponent(
-//                            go, "脚本", _deserializeObject.ScriptName);
-                    }
                     
                     print("创建物体成功..." + go.name);
                 }

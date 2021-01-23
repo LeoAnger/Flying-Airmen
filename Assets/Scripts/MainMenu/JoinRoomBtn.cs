@@ -1,10 +1,11 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading;
 using NetWork.RoomInfo;
+using NetWork.UserInfo;
 using Script.Enum;
-using Script.NetWork.UserInfo;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -48,14 +49,14 @@ namespace MainMenu
             {
                 isSelectRole = false;
                 // 跳转场景必须是主线程
-                SceneManager.LoadScene(SceneName.RoleSel);
+                SceneManager.LoadScene(SceneName.GamePlay);
             }
             
             if (isStandalone)
             {
                 isStandalone = false;
                 // 单机模式
-                SceneManager.LoadScene(SceneName.GamePlay);
+                SceneManager.LoadScene(SceneName.Standalone);
             }
 
             if (isShowErrorMsgText)
@@ -66,7 +67,7 @@ namespace MainMenu
                 errorMsgText.gameObject.SetActive(true);
             }
 
-            PwdPanel.active = IsShowPanel;
+            PwdPanel.SetActive(IsShowPanel);
         
         }
 
@@ -130,7 +131,7 @@ namespace MainMenu
                     if (Data2.EndsWith("}"))
                     {
                         // 判断UserInfo是管理员还是玩家
-                        // 房间权限
+                        // 房间角色
                         if (Data2.StartsWith("{Admin"))
                         {
                             RoomInfo.RoomPermissions = RoomPermissions.Admin;
@@ -151,12 +152,24 @@ namespace MainMenu
                             UserInfo.PlayerRoleType = PlayerRoleType.Player2;
                         }
 
+                        // 房间Port
+                        //{Admin,Player1,5001}
+//                        print(Data2.Split(',')[2]);
+//                        print(Data2.Split(',')[2].Split('}')[0]);
+                        RoomInfo.RoomPort = Convert.ToInt32(Data2.Split(',')[2].Split('}')[0]);
+                        print("RoomInfo.RoomPort: " + RoomInfo.RoomPort);
+                        
                         // 保存房间ID
                         RoomInfo.RoomId = InputField_RoomID.text;
                         // 保存用户名
                         UserInfo.UserName = InputField_Uname.text;
                         url_return_content = Data2;
-                        // 跳转选人界面
+                        // 等待跳转选人界面
+                        while (true)
+                        {
+                            //coding...
+                            break;
+                        }
                         //成功
                         isSelectRole = true;
                         print("跳转选人界面" + "\n房间ID: " + RoomInfo.RoomId +
@@ -193,6 +206,7 @@ namespace MainMenu
 
         }
 
+        // 单机模式
         public void Standalone()
         {
             isStandalone = true;

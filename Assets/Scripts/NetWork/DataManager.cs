@@ -1,11 +1,11 @@
 ﻿using System.Threading;
-using NetWork;
+using NetWork.Entity;
 using Newtonsoft.Json;
 using Script.Enum;
-using Script.NetWork.Entity;
+using Script.NetWork;
 using UnityEngine;
 
-namespace Script.NetWork
+namespace NetWork
 {
     public class DataManager : MonoBehaviour
     {
@@ -19,6 +19,7 @@ namespace Script.NetWork
         // Start is called before the first frame update
         void Start()
         {
+            print("开启接收服务器消息的sub线程");
             // 开启接收服务器消息的sub线程
             ThreadStart childref = new ThreadStart(DataManage);
             childThread = new Thread(childref);
@@ -48,6 +49,27 @@ namespace Script.NetWork
                  * 2.获取Content进行反序列化
                  * 3.逻辑处理
                  */
+                if (RoomInfo.RoomInfo.RoomPermissions != RoomPermissions.Admin)
+                {
+                    switch (deserializeObject.SourceDataType)
+                    {
+                        
+                        case SourceDataType.EnemyBulletByName:
+                            EnemyManager.EnemyBulletQueue.Enqueue(deserializeObject.Content);
+                            break;
+                        case SourceDataType.EnemyByName:
+                            EnemyManager.EnemyQueue.Enqueue(deserializeObject.Content);
+                            break;
+                        case SourceDataType.GameObj:
+                            print("接收到服务器创建物体消息...");
+                            while (NetGameObj.isReadedData)
+                            {
+                                NetGameObj.sourceDatasTemp = deserializeObject.Content;
+                                NetGameObj.isReadedData = false;
+                            }
+                            break;
+                    }
+                }
                 switch (deserializeObject.SourceDataType)
                 {
                     case SourceDataType.Player1:
@@ -59,21 +81,11 @@ namespace Script.NetWork
                         //2.通知Player2
                         
                         // 通知DataManager
-                        /*while (NetPlayer2.isReadedData)
-                    {
-                        NetPlayer2.sourceDatasTemp = deserializeObject.Content;
-                        NetPlayer2.isReadedData = false;
-                    }*/
-                        break;   
-                    case SourceDataType.GameObj:
-                        print("接收到服务器创建物体消息...");
-                        while (NetGameObj.isReadedData)
+                        while (NetPlayer2.isReadedData)
                         {
-                            NetGameObj.sourceDatasTemp = deserializeObject.Content;
-                            NetGameObj.isReadedData = false;
-                        }
-                        break;
-                    
+                            NetPlayer2.sourceDatasTemp = deserializeObject.Content;
+                            NetPlayer2.isReadedData = false;
+                        }break;
                 }
             }  
         }

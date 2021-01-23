@@ -5,6 +5,7 @@
         public static string MainMenu = "MainMenu";
         public static string RoleSel = "RoleSel";
         public static string GamePlay = "GamePlay";
+        public static string Standalone = "Standalone";
         
     }
 }

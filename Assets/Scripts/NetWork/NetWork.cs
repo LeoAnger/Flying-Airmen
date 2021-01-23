@@ -1,13 +1,10 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using Newtonsoft.Json;
-using Script.Enum;
-using Script.NetWork.Entity;
 using UnityEngine;
 
-namespace Script.NetWork
+namespace NetWork
 {
     public class NetWork : MonoBehaviour
     {
@@ -18,15 +15,9 @@ namespace Script.NetWork
         public static string SendDatas = "";
         public static string SendDatasTemp = "";
         public static bool HasNewSendDatas = false;
+        public static Queue<string> EnemyQueue = new Queue<string>();
+        public static Queue<string> EnemyBulletQueue = new Queue<string>();
 
-
-        private SourceDataEntity _sourceDataEntity = new SourceDataEntity();
-
-        private Player2Entity P2 = new Player2Entity();
-
-        public GameObject Player2;
-
-        public Animator Animator2;
         /*
      * 1.连接网络
      * 2.接受网络数据
@@ -46,9 +37,14 @@ namespace Script.NetWork
         // Update is called once per frame
         void Update()
         {
+            
+        }
+
+        private void FixedUpdate()
+        {
             Send();
         }
-    
+
         void NetWorkConn()
         {
             //1.获取IP
@@ -77,7 +73,7 @@ namespace Script.NetWork
                     buflen = io.Read(buffer, 0, 1024);
                     string message = Encoding.UTF8.GetString(buffer, 0, buflen);
                     //print("Server: " + buffer.Length + " --> " + message);
-                    print(message);
+                    //print(message);
                 
                     // 通知DataManager
                     while (DataManager.isReadedData)
@@ -93,29 +89,10 @@ namespace Script.NetWork
                 }
             }
         }
-    
+
+        private byte[] by1;
         void Send()
         {
-            /*//封装消息
-            _sourceDataEntity.SourceDataType = SourceDataType.Player2;
-            P2.PositionX = Player2.transform.position.x;
-            P2.PositionY = Player2.transform.position.y;
-            P2.PositionZ = Player2.transform.position.z;
-            P2.LocalScaleX = Player2.transform.localScale.x;
-            P2.LocalScaleY = Player2.transform.localScale.y;
-            P2.LocalScaleZ = Player2.transform.localScale.z;
-            P2.running = Animator2.GetFloat("running");
-            P2.idle = Animator2.GetBool("idle");
-            P2.falling = Animator2.GetBool("falling");
-            P2.jumping = Animator2.GetBool("jumping");
-            String s1 = JsonConvert.SerializeObject(P2);
-            _sourceDataEntity.Content = s1;
-            String s2 = JsonConvert.SerializeObject(_sourceDataEntity);
-        
-            //发送消息
-            byte[] by = Encoding.UTF8.GetBytes(s2);
-            io.Write(by, 0, by.Length);
-            io.Flush();*/
         
             // 检测数据通知
             if (HasNewSendDatas)
@@ -123,7 +100,23 @@ namespace Script.NetWork
                 SendDatas = SendDatasTemp;
                 HasNewSendDatas = false;
                 //发送消息
-                byte[] by1 = Encoding.UTF8.GetBytes(SendDatas);
+                by1 = Encoding.UTF8.GetBytes(SendDatas);
+                io.Write(by1, 0, by1.Length);
+                io.Flush();
+            }
+
+            if (EnemyQueue.Count > 0)
+            {
+                //发送消息
+                by1 = Encoding.UTF8.GetBytes(EnemyQueue.Dequeue());
+                io.Write(by1, 0, by1.Length);
+                io.Flush();
+            }
+            
+            if (EnemyBulletQueue.Count > 0)
+            {
+                //发送消息
+                by1 = Encoding.UTF8.GetBytes(EnemyBulletQueue.Dequeue());
                 io.Write(by1, 0, by1.Length);
                 io.Flush();
             }

@@ -1,7 +1,7 @@
 ﻿using Script.Enum;
 
 // 用户信息
-    namespace Script.NetWork.UserInfo
+    namespace NetWork.UserInfo
     {
         public class UserInfo
         {

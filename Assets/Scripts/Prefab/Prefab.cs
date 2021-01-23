@@ -6,9 +6,8 @@ namespace Prefab
     {
         public static Dictionary<string,string> Maps = new Dictionary<string, string>()
         {
-            {"moodBox","moodBox"},
-            {"tree", "tree"},
-            {"Player", "Player/Player"}
+            {"Enemy1","Enemys/EA2 3"},
+            {"EnemyBullet1","Bullet/EnemyBullet"},
         };
     }
 }
