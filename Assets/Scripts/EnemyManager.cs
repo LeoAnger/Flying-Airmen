@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using NetWork.Entity;
 using NetWork.RoomInfo;
@@ -124,8 +125,15 @@ public class EnemyManager : MonoBehaviour
         if (EnemyQueue.Count > 0)
         {
             //读取数据
-            _enemyEntity1 = JsonConvert.DeserializeObject<EnemyEntity>(EnemyQueue.Dequeue());
-            
+            try
+            {
+                _enemyEntity1 = JsonConvert.DeserializeObject<EnemyEntity>(EnemyQueue.Dequeue());
+            }
+            catch (Exception e)
+            {
+                print(e);
+                return;
+            }
             // 处理数据
             GameObject _find = GameObject.Find(_enemyEntity1.ObjName);
             if (_find)
@@ -147,8 +155,15 @@ public class EnemyManager : MonoBehaviour
         if (EnemyBulletQueue.Count > 0)
         {
             //读取数据
-            _enemyBulletEntity = JsonConvert.DeserializeObject<EnemyBulletEntity>(EnemyBulletQueue.Dequeue());
-            
+            try
+            {
+                _enemyBulletEntity = JsonConvert.DeserializeObject<EnemyBulletEntity>(EnemyBulletQueue.Dequeue());
+            }
+            catch (Exception e)
+            {
+                print(e);
+                return;
+            }
             // 处理数据
             GameObject _find = GameObject.Find(_enemyBulletEntity.ObjName);
             if (_find)

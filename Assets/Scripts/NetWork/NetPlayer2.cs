@@ -1,4 +1,5 @@
-﻿using NetWork.Entity;
+﻿using System;
+using NetWork.Entity;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -29,7 +30,16 @@ namespace Script.NetWork
                 //读取数据
                 sourceDatas = sourceDatasTemp;
                 isReadedData = true;
-                deserializeObject = JsonConvert.DeserializeObject<Player2Entity>(sourceDatas);
+                try
+                {
+                    deserializeObject = JsonConvert.DeserializeObject<Player2Entity>(sourceDatas);
+                }
+                catch (Exception e)
+                {
+                    print(e);
+                    break;
+                }
+                
                 /*
              * 1.判断数据是否合理（掉帧）
              * 2.获取Content进行反序列化

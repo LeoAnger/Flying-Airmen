@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -90,14 +91,14 @@ namespace NetWork
             }
         }
 
-        private byte[] by1;
+        private byte[] by1 = new byte[1024];
+        private byte[] by2 = new byte[1024];
         void Send()
         {
-        
             // 检测数据通知
             if (HasNewSendDatas)
             {
-                SendDatas = SendDatasTemp;
+                SendDatas = SendDatasTemp + "☍";
                 HasNewSendDatas = false;
                 //发送消息
                 by1 = Encoding.UTF8.GetBytes(SendDatas);
@@ -108,7 +109,7 @@ namespace NetWork
             if (EnemyQueue.Count > 0)
             {
                 //发送消息
-                by1 = Encoding.UTF8.GetBytes(EnemyQueue.Dequeue());
+                by1 = Encoding.UTF8.GetBytes(EnemyQueue.Dequeue() + "☍");
                 io.Write(by1, 0, by1.Length);
                 io.Flush();
             }
@@ -116,8 +117,8 @@ namespace NetWork
             if (EnemyBulletQueue.Count > 0)
             {
                 //发送消息
-                by1 = Encoding.UTF8.GetBytes(EnemyBulletQueue.Dequeue());
-                io.Write(by1, 0, by1.Length);
+                by2 = Encoding.UTF8.GetBytes(EnemyBulletQueue.Dequeue() + "☍");
+                io.Write(by2, 0, by2.Length);
                 io.Flush();
             }
         }

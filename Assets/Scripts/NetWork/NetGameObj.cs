@@ -1,4 +1,5 @@
-﻿using NetWork.Entity;
+﻿using System;
+using NetWork.Entity;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -33,7 +34,16 @@ namespace NetWork
                 //读取数据
                 _sourceDatas = sourceDatasTemp;
                 isReadedData = true;
-                _deserializeObject = JsonConvert.DeserializeObject<GameObjEntity>(_sourceDatas);
+                try
+                {
+                    _deserializeObject = JsonConvert.DeserializeObject<GameObjEntity>(_sourceDatas);
+                }
+                catch (Exception e)
+                {
+                    print(e);
+                    break;
+                }
+                
             
                 //逻辑处理
                 // Create

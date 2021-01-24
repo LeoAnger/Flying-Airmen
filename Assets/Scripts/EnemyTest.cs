@@ -35,8 +35,7 @@ public class EnemyTest : MonoBehaviour
         transform.Translate(Vector3.left * Time.deltaTime * speed);
         if (transform.position.x < -10)
         {
-            print("自行销毁敌机。。。");
-            Destroy(gameObject);
+            DestroyThis();
         }
         
         //EnemyNet();
@@ -46,9 +45,9 @@ public class EnemyTest : MonoBehaviour
     
     void OnTriggerEnter2D(Collider2D coll)
     {
-        Debug.Log("碰撞发生-----" + coll.name + "\n" +
+        /*Debug.Log("碰撞发生-----" + coll.name + "\n" +
                   coll.gameObject.layer + "\n" +
-                  coll.gameObject.GetComponent<SpriteRenderer>().sortingLayerName);
+                  coll.gameObject.GetComponent<SpriteRenderer>().sortingLayerName);*/
         switch (coll.gameObject.GetComponent<SpriteRenderer>().sortingLayerName)
         {
             case   "BulletP1" :
@@ -99,7 +98,7 @@ public class EnemyTest : MonoBehaviour
     public void DestroyThis()
     {
         //
-        //print("DestroyThis");
+        EnemyManager.EnemyNameList.Remove(name);
         Destroy(gameObject);
     }
     
